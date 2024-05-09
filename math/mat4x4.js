@@ -75,6 +75,25 @@ export class mat4x4 {
         );
     }
 
+    static RotationAxis(axis, rad) {
+        axis = axis.normalize();
+        const c = Math.cos(rad);
+        const s = Math.sin(rad);
+        const xx = axis.x * axis.x;
+        const xy = axis.x * axis.y;
+        const xz = axis.x * axis.z;
+        const yy = axis.y * axis.y;
+        const yz = axis.y * axis.z;
+        const zz = axis.z * axis.z;
+
+        return new mat4x4(
+            xx * (1 - c) + c,          xy * (1 - c) + axis.z * s, xz * (1 - c) - axis.y * s, 0,
+            xy * (1 - c) - axis.z * s, yy * (1 - c) + c,          yz * (1 - c) + axis.x * s, 0,
+            xz * (1 - c) + axis.y * s, yz * (1 - c) - axis.x * s, zz * (1 - c) + c,          0,
+            0,                         0,                         0,                         1
+        );
+    }
+
     static LookAtRH(eye, at, up) {
         const z = eye.sub(at).normalize();
         const x = up.cross(z).normalize();
