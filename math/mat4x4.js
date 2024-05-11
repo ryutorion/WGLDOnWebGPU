@@ -133,6 +133,25 @@ export class mat4x4 {
         new Float32Array(buffer.getMappedRange()).set(this.#m);
     }
 
+    get transpose() {
+        return new mat4x4(
+            this.#m[ 0], this.#m[ 1], this.#m[ 2], this.#m[ 3],
+            this.#m[ 4], this.#m[ 5], this.#m[ 6], this.#m[ 7],
+            this.#m[ 8], this.#m[ 9], this.#m[10], this.#m[11],
+            this.#m[12], this.#m[13], this.#m[14], this.#m[15]
+        );
+    }
+
+    // スケールしていない前提
+    get rotation() {
+        return new mat4x4(
+            this.#m[ 0], this.#m[ 4], this.#m[ 8], 0,
+            this.#m[ 1], this.#m[ 5], this.#m[ 9], 0,
+            this.#m[ 2], this.#m[ 6], this.#m[10], 0,
+            0, 0, 0, 1
+        );
+    }
+
     mul(m) {
         return new mat4x4(
             this.#m[ 0] * m.#m[ 0] +
